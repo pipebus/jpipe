@@ -3,24 +3,13 @@ import json
 import os
 import pprint
 import sys
+import warnings
 
 import jmespath
 
 __version__ = "VERSION"
-__project__ = "jpipe"
 __description__ = "A python implementation of the jp CLI for JMESPath"
-__author__ = "Zac Medico"
-__email__ = "<zmedico@gmail.com>"
-__classifiers__ = (
-    "License :: OSI Approved :: Apache Software License",
-    "Operating System :: POSIX",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Unix Shell",
-)
-__copyright__ = "Copyright 2021 Zac Medico"
-__license__ = "Apache-2.0"
-__url__ = "https://github.com/pipebus/jpipe"
-__project_urls__ = (("Bug Tracker", "https://github.com/pipebus/jpipe/issues"),)
+
 
 
 # This 2 space indent matches https://github.com/jmespath/jp behavior.
@@ -30,11 +19,14 @@ JP_COMPAT_DUMP_KWARGS = (
 )
 
 
-def jpipe_main(argv=None):
+def jp_main(argv=None):
     argv = sys.argv if argv is None else argv
-    parser = argparse.ArgumentParser(
-        prog=os.path.basename(argv[0]),
-    )
+    prog = os.path.basename(argv[0])
+
+    if "jpipe" == prog:
+        warnings.warn("The 'jpipe' command in its current form is deprecated (change is planned). Please use jp or jpp instead (for a stable interface).", UserWarning)
+
+    parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("expression", nargs="?", default=None)
     parser.add_argument(
         "-e",
@@ -69,8 +61,8 @@ def jpipe_main(argv=None):
             "Only print the AST of the parsed expression.  Do not rely on this output, only useful for debugging purposes."
         ),
     )
-    parser.usage = "{}\n  {} - {}".format(
-        parser.format_usage().partition("usage: ")[-1], __project__, __description__
+    parser.usage = "{}\n  {}".format(
+        parser.format_usage().partition("usage: ")[-1], __description__
     )
 
     args = parser.parse_args(argv[1:])
@@ -109,4 +101,4 @@ def jpipe_main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(jpipe_main(argv=sys.argv))
+    sys.exit(jp_main(argv=sys.argv))

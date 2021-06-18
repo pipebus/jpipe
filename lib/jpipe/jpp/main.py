@@ -7,9 +7,8 @@ import itertools
 
 import jmespath.exceptions
 
-from .. import __version__
-from .. import __project__
-
+__version__ = "VERSION"
+__project__ = "jpp"
 __description__ = "jpp is an extended superset of the jp CLI for JMESPath"
 
 # This 2 space indent matches https://github.com/jmespath/jp behavior.
@@ -154,8 +153,8 @@ def jpp_main(argv=None):
             "Only print the AST of the parsed expression.  Do not rely on this output, only useful for debugging purposes."
         ),
     )
-    parser.usage = "{}\n  {} - {}".format(
-        parser.format_usage().partition("usage: ")[-1], __project__, __description__
+    parser.usage = "{}\n {}".format(
+        parser.format_usage().partition("usage: ")[-1], __description__
     )
 
     args = parser.parse_args(argv[1:])

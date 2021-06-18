@@ -5,18 +5,18 @@ import tempfile
 import unittest.mock
 
 try:
-    import jpipe
+    from jpipe.jp.main import jp_main
 except ImportError:
     sys.path.append(
         os.path.join(
             os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "lib"
         )
     )
-    import jpipe
+    from jpipe.jp.main import jp_main
 
 
-class JPipeTest(unittest.TestCase):
-    def testJPipe(self):
+class JpTest(unittest.TestCase):
+    def testJp(self):
         for input_args, input_json, input_expr, expected_output, expected_retval in (
             ((), """{"hello": "world"}""", "@", '{\n  "hello": "world"\n}\n', 0),
             ((), """{"hello": "world"}""", "@.hello", '"world"\n', 0),
@@ -41,9 +41,9 @@ class JPipeTest(unittest.TestCase):
 
             mock_stdout = io.StringIO()
             with unittest.mock.patch("sys.stdout", new=mock_stdout):
-                retval = jpipe.jpipe_main(
+                retval = jp_main(
                     [
-                        "jpipe",
+                        "jp",
                         "--expr-file",
                         expr_file.name,
                         "--filename",

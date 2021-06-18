@@ -1,4 +1,4 @@
-# jpipe
+# jp
 
 A python implementation (using
 [jmespath.py](https://github.com/jmespath/jmespath.py))
@@ -13,9 +13,9 @@ Please open an issue if an incompatibility is found.
 
 ## Usage
 ```
-usage: jpipe [-h] [-e EXPR_FILE] [-f FILENAME] [-u] [--ast] [expression]
+usage: jp [-h] [-e EXPR_FILE] [-f FILENAME] [-u] [--ast] [expression]
 
-  jpipe - A python implementation of the jp cli for JMESPath
+  jp - A python implementation of the jp cli for JMESPath
 
 positional arguments:
   expression

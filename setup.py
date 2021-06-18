@@ -8,21 +8,28 @@ from setuptools import (
     setup,
 )
 
-__version__ = "0.1.3.7"
+__version__ = "0.1.3.8"
 
 sys.path.insert(0, "lib")
-from jpipe import (
-    __author__,
-    __classifiers__,
+from jpipe.jp.main import (
     __description__,
-    __email__,
-    __project__,
-    __project_urls__,
-    __url__,
 )
 
 sys.path.remove("lib")
 
+__project__ = "jpipe"
+__author__ = "Zac Medico"
+__email__ = "<zmedico@gmail.com>"
+__classifiers__ = (
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Unix Shell",
+)
+__copyright__ = "Copyright 2021 Zac Medico"
+__license__ = "Apache-2.0"
+__url__ = "https://github.com/pipebus/jpipe"
+__project_urls__ = (("Bug Tracker", "https://github.com/pipebus/jpipe/issues"),)
 
 class PyTest(Command):
     user_options = [
@@ -97,7 +104,8 @@ setup(
     packages=list(find_packages()),
     entry_points={
         "console_scripts": [
-            "jpipe = jpipe:jpipe_main",
+            "jpipe = jpipe.jp.main:jp_main",
+            "jp = jpipe.jp.main:jp_main",
             "jpp = jpipe.jpp.main:jpp_main",
         ]
     },
