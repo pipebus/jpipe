@@ -213,8 +213,12 @@ def jpp_main(argv=None):
                     except StopIteration:
                         data = None
 
-                if not data:
-                    eof = True
+                if stream_iter is None:
+                    eof = not data
+                else:
+                    eof = data is None
+
+                if eof:
                     break
 
                 result = jmespath.search(expression, data)
