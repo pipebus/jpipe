@@ -8,7 +8,7 @@ from setuptools import (
     setup,
 )
 
-__version__ = "0.1.3.8"
+__version__ = "0.1.3.9"
 
 sys.path.insert(0, "lib")
 from jpipe.jp.main import (
@@ -104,9 +104,11 @@ setup(
     packages=list(find_packages()),
     entry_points={
         "console_scripts": [
-            "jpipe = jpipe.jp.main:jp_main",
+            "jpipe = jpipe.cmd.main:jpipe_main",
             "jp = jpipe.jp.main:jp_main",
             "jpp = jpipe.jpp.main:jpp_main",
+            "jpipe-jp = jpipe.jp.main:jp_main",
+            "jpipe-jpp = jpipe.jpp.main:jpp_main",
         ]
     },
     python_requires=">=3.6",

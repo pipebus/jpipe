@@ -99,6 +99,8 @@ def jp_main(argv=None):
     sys.stdout.write("\n")
     return 0
 
+jp_main.__description__ = __description__
+
 
 if __name__ == "__main__":
     sys.exit(jp_main(argv=sys.argv))

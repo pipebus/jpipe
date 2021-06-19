@@ -248,6 +248,8 @@ def jpp_main(argv=None):
                 break
     return 0
 
+jpp_main.__description__ = __description__
+
 
 def output_result(args, dump_kwargs, result):
     if args.quoted or not isinstance(result, str):

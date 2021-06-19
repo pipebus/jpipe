@@ -13,23 +13,10 @@ Please open an issue if an incompatibility is found.
 
 ## Usage
 ```
-usage: jp [-h] [-e EXPR_FILE] [-f FILENAME] [-u] [--ast] [expression]
-
-  jp - A python implementation of the jp cli for JMESPath
+usage: jpipe {jp,jpp} ...
 
 positional arguments:
-  expression
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -e EXPR_FILE, --expr-file EXPR_FILE
-                        Read JMESPath expression from the specified file.
-  -f FILENAME, --filename FILENAME
-                        The filename containing the input data. If a filename
-                        is not given then data is read from stdin.
-  -u, --unquoted        If the final result is a string, it will be printed
-                        without quotes.
-  --ast                 Only print the AST of the parsed expression. Do not
-                        rely on this output, only useful for debugging
-                        purposes.
+  {jp,jpp}
+    jp      A python implementation of the jp CLI for JMESPath
+    jpp     jpp is an extended superset of the jp CLI for JMESPath
 ```
