@@ -5,17 +5,19 @@ import sys
 
 from setuptools import (
     Command,
+    find_packages,
     setup,
 )
+from setuptools.command.install_lib import install_lib
 
 __version__ = "0.1.3.9"
 
-sys.path.insert(0, "lib")
+sys.path.insert(0, "lib/python")
 from jpipe.jp.main import (
     __description__,
 )
 
-sys.path.remove("lib")
+sys.path.remove("lib/python")
 
 __project__ = "jpipe"
 __author__ = "Zac Medico"
@@ -30,6 +32,7 @@ __copyright__ = "Copyright 2021 Zac Medico"
 __license__ = "Apache-2.0"
 __url__ = "https://github.com/pipebus/jpipe"
 __project_urls__ = (("Bug Tracker", "https://github.com/pipebus/jpipe/issues"),)
+
 
 class PyTest(Command):
     user_options = [
@@ -72,13 +75,20 @@ def version_subst(filename):
                 f.write(content)
 
 
-def find_packages():
-    for dirpath, _dirnames, filenames in os.walk("lib"):
-        if "__init__.py" in filenames:
-            for filename in filenames:
-                if filename.endswith(".py"):
-                    version_subst(os.path.join(dirpath, filename))
-            yield os.path.relpath(dirpath, "lib")
+class x_install_lib(install_lib):
+    def install(self):
+        ret = install_lib.install(self)
+        extra_python_dir = os.path.join(self.install_dir, "python")
+        if os.path.isdir(extra_python_dir):
+            shutil.rmtree(extra_python_dir)
+
+        for dirpath, _dirnames, filenames in os.walk(self.install_dir):
+            if "__init__.py" in filenames:
+                for filename in filenames:
+                    if filename.endswith(".py"):
+                        version_subst(os.path.join(dirpath, filename))
+
+        return ret
 
 
 with open(os.path.join(os.path.dirname(__file__), "README.md"), "rt") as f:
@@ -97,11 +107,12 @@ setup(
     project_urls=dict(__project_urls__),
     classifiers=list(__classifiers__),
     cmdclass={
+        "install_lib": x_install_lib,
         "test": PyTest,
     },
     install_requires=["jmespath"],
-    package_dir={"": "lib"},
-    packages=list(find_packages()),
+    package_dir={"": "lib/python"},
+    packages=find_packages(where="./lib/python"),
     entry_points={
         "console_scripts": [
             "jpipe = jpipe.cmd.main:jpipe_main",
