@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "0.1.3.7"
+const version = "0.2.0"
 
 type JppConfig struct {
 	Accumulate bool `json:"accumulate"`
