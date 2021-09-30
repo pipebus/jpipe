@@ -10,7 +10,7 @@ from setuptools import (
 )
 from setuptools.command.install_lib import install_lib
 
-__version__ = "0.1.3.9"
+__version__ = "0.2.0"
 
 sys.path.insert(0, "lib/python")
 from jpipe.jp.main import (

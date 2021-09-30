@@ -29,6 +29,14 @@ def jp_main(argv=None):
     parser = argparse.ArgumentParser(prog=prog)
     parser.add_argument("expression", nargs="?", default=None)
     parser.add_argument(
+        "-c",
+        "--compact",
+        action="store_true",
+        dest="compact",
+        default=False,
+        help=("Produce compact JSON output that omits nonessential whitespace."),
+    )
+    parser.add_argument(
         "-e",
         "--expr-file",
         dest="expr_file",
@@ -92,14 +100,28 @@ def jp_main(argv=None):
         data = json.loads(data)
 
     result = jmespath.search(expression, data)
-    if args.quoted or not isinstance(result, str):
-        result = json.dumps(result, **dict(JP_COMPAT_DUMP_KWARGS))
 
-    sys.stdout.write(result)
-    sys.stdout.write("\n")
+    dump_kwargs = dict(JP_COMPAT_DUMP_KWARGS)
+    if args.compact:
+        dump_kwargs.pop("indent", None)
+        dump_kwargs["separators"] = (",", ":")
+
+    output_result(args, dump_kwargs, result)
     return 0
 
 jp_main.__description__ = __description__
+
+
+def output_result(args, dump_kwargs, result):
+    if args.quoted or not isinstance(result, str):
+        result = json.dumps(result, **dump_kwargs)
+
+    sys.stdout.write(result)
+
+    if args.quoted or (
+        not args.quoted and isinstance(result, str) and result[-1:] != "\n"
+    ):
+        sys.stdout.write("\n")
 
 
 if __name__ == "__main__":
