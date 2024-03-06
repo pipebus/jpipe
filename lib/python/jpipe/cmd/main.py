@@ -42,7 +42,9 @@ def jpipe_main(argv=None):
 
     subparsers = root_parser.add_subparsers()
 
-    for entry_point in importlib_metadata.entry_points()["console_scripts"]:
+    for entry_point in importlib_metadata.entry_points().select(
+        group="console_scripts"
+    ):
         if not entry_point.value.startswith("jpipe."):
             continue
         if not entry_point.name.startswith("jpipe-"):
